@@ -1,0 +1,21 @@
+# Ignore virtual environments (to avoid permission errors)
+.venv/
+
+# Python cache & compiled files
+__pycache__/
+
+
+# Ignore IDE, editor, and system files
+.vscode/
+
+
+# Git and unnecessary files
+README.md
+makefile
+
+# Environment variables (important for security)
+.env
+.envrc
+
+# Ignore test files if not needed in production
+tests/
