@@ -43,7 +43,7 @@ jobs:
       run: make build_docker_image
 
     - name: Run Docker container
-      run: make run_docker_image 
+      run: make run_docker_image
 
     - name: Wait for FastAPI to start
       run: sleep 10
@@ -53,6 +53,10 @@ jobs:
 
     - name: Save Docker image
       run: make save_api
+
+    - name: Check Docker image tar path
+      run: echo "Docker image tar path: ${{ env.DOCKER_IMAGE_TAR }}"
+
 
     - name: Upload Docker image as artifact
       uses: actions/upload-artifact@v4
