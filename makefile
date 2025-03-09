@@ -10,7 +10,7 @@ build_docker_image:
 	@docker build -t $(DOCKER_IMAGE_NAME) -f Dockerfile .
 
 run_docker_image:
-	@docker run --rm -p $(PORT):$(PORT) -e PORT=$(PORT) $(DOCKER_IMAGE_NAME)
+	@docker run --rm -d -p $(PORT):$(PORT) -e PORT=$(PORT) $(DOCKER_IMAGE_NAME)
 
 push_docker_image:
 	@docker push $(DOCKER_IMAGE_NAME)
