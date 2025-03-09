@@ -1,3 +1,11 @@
+ifneq (,$(wildcard .env))
+    include .env
+    export
+endif
+
+print-env:
+	@echo "PORT=$(PORT)"
+
 build_docker_image:
 	@docker build -t $(DOCKER_IMAGE_NAME) -f Dockerfile .
 
