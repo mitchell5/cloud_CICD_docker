@@ -1,0 +1,80 @@
+name: FastAPI CI and Lint
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Load environment variables from .env file
+    - name: Load environment variables
+      run: |
+        set -a
+        source .env
+        set +a
+
+    - name: Run Hadolint
+      uses: hadolint/hadolint-action@v3.1.0
+      with:
+        dockerfile: Dockerfile
+
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Load environment variables
+      run: |
+        set -a
+        source .env
+        set +a
+
+    - name: Build Docker image
+      run: make build_docker_image
+
+    - name: Run Docker container
+      run: make run_docker_image 
+
+    - name: Wait for FastAPI to start
+      run: sleep 10
+
+    - name: Test API
+      run: make test_api
+
+    - name: Save Docker image
+      run: make save_api
+
+    - name: Upload Docker image as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: my_fastapi_app
+        path: ${{ env.DOCKER_IMAGE_TAR }}
+
+  security-scan:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download Docker image from artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: my_fastapi_app
+
+    - name: Load Docker image
+      run: make load_docker_image
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: '${{ env.DOCKER_IMAGE_TAR }}'
+        format: 'table'
+        exit-code: '1'
