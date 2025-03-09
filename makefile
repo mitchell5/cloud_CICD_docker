@@ -1,5 +1,3 @@
-include ../../../make.inc
-
 build_docker_image:
 	@docker build -t $(DOCKER_IMAGE_NAME) -f Dockerfile .
 
