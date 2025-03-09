@@ -20,7 +20,7 @@ test_api:
 	@curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/ | grep 200
 
 save_api:
-  @docker save $(DOCKER_IMAGE_NAME) > $(DOCKER_IMAGE_TAR)
+	@docker save $(DOCKER_IMAGE_NAME) > $(DOCKER_IMAGE_TAR)
 
 # Target to load Docker image
 load_docker_image:

@@ -23,7 +23,7 @@ ENV PATH="/home/runner/.local/bin:$PATH"
 COPY ./  ./
 
 # Install Poetry and Dependencies
-RUN pip install --no-cache-dir poetry  && \
+RUN pip install --no-cache-dir poetry==2.1.1  && \
     poetry config virtualenvs.in-project true && \
     poetry install --only main
 
@@ -31,4 +31,4 @@ RUN pip install --no-cache-dir poetry  && \
 EXPOSE 8000
 
 ENTRYPOINT [ "poetry", "run" ]
-CMD uvicorn app.main:app --host 0.0.0.0 --port $PORT
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "$PORT"]
