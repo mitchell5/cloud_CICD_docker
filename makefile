@@ -4,7 +4,7 @@ ifneq (,$(wildcard .env))
 endif
 
 print-env:
-	@echo "PORT=$(PORT)"
+	@echo "$(DOCKER_IMAGE_TAR)"
 
 build_docker_image:
 	@docker build -t $(DOCKER_IMAGE_NAME) -f Dockerfile .

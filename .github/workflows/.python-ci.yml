@@ -59,6 +59,10 @@ jobs:
       with:
         name: my_fastapi_app
         path: ${{ env.DOCKER_IMAGE_TAR }}
+        if-no-files-found: warn
+        compression-level: 6
+        overwrite: false
+        include-hidden-files: false
 
   security-scan:
     needs: build-and-test
